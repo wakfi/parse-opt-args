@@ -1,0 +1,19 @@
+{
+  "name": "parse-opt-args",
+  "version": "0.1.0",
+  "description": "Parser for command-line-style options in strings",
+  "main": "src/parseArgs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wakfi/parse-opt-args.git"
+  },
+  "author": "wakfi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wakfi/parse-opt-args/issues"
+  },
+  "homepage": "https://github.com/wakfi/parse-opt-args#readme"
+}
