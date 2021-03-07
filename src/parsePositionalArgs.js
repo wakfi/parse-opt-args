@@ -5,29 +5,29 @@ const dashMatching = '[a-zA-Z]+';
 const dashflag = '-';
 
 /** @typedef ParseOptions
-	options.flagPrefix {string}
-	options.flagMatching {string}
-	options.flagRegex {RegExp}
-	options.disableAutoPrefix {boolean}
-	options.singlePosition {boolean}
-	options.disableDoublePrefix {boolean}
-	options.doublePrefix {string}
-	options.doubleMatching {string}
-	options.doubleRegex {RegExp}
+		flagPrefix {string}
+		flagMatching {string}
+		flagRegex {RegExp}
+		disableAutoPrefix {boolean}
+		singlePosition {boolean}
+		disableDoublePrefix {boolean}
+		doublePrefix {string}
+		doubleMatching {string}
+		doubleRegex {RegExp}
 */
 
 /** @typedef ParsedArgs
-	args {Array} Remaining input after parsing opts
+		args {Array} Remaining input after parsing opts
 	
-	for any flags that are found, it's key is used as as a proprty name for the result
-	<flag property> {boolean} whether a flag corresponding to the property name was found
+	For any flags that are found, its key is used as as a proprty name for the result
+	<flag property> {boolean} Whether a flag corresponding to the property name was found
 */
 
 /**
  Option is a decription of a given key:value pair in an Object being used as the flags parameter
  @typedef Opt
-	key {string} used as property name if any of the associated flags are found in args
-	flagValues {Array|string} flags to search for representing a particular option. If only 
+	key {string} Used as property name if any of the associated flags are found in args
+	flagValues {Array|string} Flags to search for representing a particular option. If only
 							  one flag will be used, it can be provided as a string instead
 */
 
@@ -51,7 +51,7 @@ function parsePositionalArgOpts(args,flags,options)
 	const obj = {};
 	if(!options.disableAutoPrefix)
 	{
-		for(const [ key, flag ] of Object.entries(flags))
+		for(const [key, flag] of Object.entries(flags))
 		{
 			if(flag instanceof Array)
 			{
@@ -63,18 +63,18 @@ function parsePositionalArgOpts(args,flags,options)
 			}
 		}
 	} else {
-		for(const [ key, flag ] of Object.entries(flags))
+		for(const [key, flag] of Object.entries(flags))
 		{
 			flagsMap.set(key, flag);
 		}
 	}
-	const doublePrefix = options.doublePrefix || [flagPrefix,flagPrefix].join('');
+	const doublePrefix = options.doublePrefix || [flagPrefix, flagPrefix].join('');
 	const doubleMatching = options.doubleMatching || doubleDashMatching;
 	const doubleRegex = options.doubleRegex || new RegExp(`(?<=\\s|^)${doublePrefix}${doubleMatching}(?=\\s|$)`,`g`);
 	const doubleRegexNonGlobal = options.doubleRegex || new RegExp(`(?<=\\s|^)${doublePrefix}${doubleMatching}(?=\\s|$)`);
 	const doubleFound = options.disableDoublePrefix ? [] : [...argsCopy.join(' ').matchAll(doubleRegex)];
-	const found = [...doubleFound, ...[...argsCopy.join(' ').matchAll(flagRegex)].map(tuple => tuple.slice(1)).flat(Infinity).join('').split(flagPrefix).join('').split('').map(foundItem => [flagPrefix,foundItem].join(''))];
-	const parse = (key,flag) => 
+	const found = [...doubleFound, ...[...argsCopy.join(' ').matchAll(flagRegex)].map(tuple => tuple.slice(1)).flat(Infinity).join('').split(flagPrefix).join('').split('').map(foundItem => [flagPrefix, foundItem].join(''))];
+	const parse = (key, flag) =>
 	{
 		if(argsCopy.includes(flag))
 		{
@@ -82,25 +82,25 @@ function parsePositionalArgOpts(args,flags,options)
 			const nextFlagIndex = singlePosition ? 1 : argsCopy.slice(indexKey+1).findIndex(arg => flagRegexNonGlobal.test(arg) || (!options.disableDoublePrefix && doubleRegexNonGlobal.test(arg)));
 			const val = argsCopy.splice(indexKey+1, nextFlagIndex==-1 ? argsCopy.length : nextFlagIndex).join(' ');
 			Object.defineProperty(obj, key, {value: val, writable: false, enumerable: true, configurable: true});
-			argsCopy.splice(indexKey,1);
+			argsCopy.splice(indexKey, 1);
 			return true;
 		}
 		return false;
 	};
-	for(const [ key, value ] of flagsMap)
+	for(const [key, value] of flagsMap)
 	{
 		if(value instanceof Array)
 		{
 			for(const flag of value)
 			{
-				if(parse(key,flag)) break;
+				if(parse(key, flag)) break;
 			}
 		} else {
-			parse(key,value);
+			parse(key, value);
 		}
 	}
 	Object.defineProperty(obj, 'args', {value: argsCopy, writable: false, enumerable: true, configurable: true});
 	return obj;
 }
 
-module.exports = parsePositionalArgs;
+module.exports = parsePositionalArgOpts;

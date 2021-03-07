@@ -4,30 +4,30 @@ const dashMatching = '[a-zA-Z]+';
 const dashflag = '-';
 
 /** @typedef ParseOptions
-	flagPrefix {string}
-	flagMatching {string}
-	flagRegex {RegExp}
-	disableAutoPrefix {boolean}
-	disableDoublePrefix {boolean}
-	doublePrefix {string}
-	doubleMatching {string}
-	doubleRegex {RegExp}
+		flagPrefix {string}
+		flagMatching {string}
+		flagRegex {RegExp}
+		disableAutoPrefix {boolean}
+		disableDoublePrefix {boolean}
+		doublePrefix {string}
+		doubleMatching {string}
+		doubleRegex {RegExp}
 */
 
 /** @typedef ParsedArgs
-	args {Array} Remaining input after parsing opts
-	found {Array} Specific flagValues found in the input
-	count {Number} Number of flags found 
+		args {Array} Remaining input after parsing opts
+		found {Array} Specific flagValues found in the input
+		count {Number} Number of flags found
 	
-	for any flags that are found, it's key is used as as a proprty name for the result
-	<flag property> {boolean} whether a flag corresponding to the property name was found
+	For any flags that are found, its key is used as as a proprty name for the result
+	<flag property> {boolean} Whether a flag corresponding to the property name was found
 */
 
 /**
  Option is a decription of a given key:value pair in an Object being used as the flags parameter
  @typedef Opt
-	key {string} used as property name if any of the associated flags are found in args
-	flagValues {Array|string} flags to search for representing a particular option. If only 
+	key {string} Used as property name if any of the associated flags are found in args
+	flagValues {Array|string} Flags to search for representing a particular option. If only
 							  one flag will be used, it can be provided as a string instead
 */
 
@@ -49,7 +49,7 @@ function parseTruthyArgOpts(args, flags, options)
 	const obj = {};
 	if(!options.disableAutoPrefix)
 	{
-		for(const [ key, flag ] of Object.entries(flags))
+		for(const [key, flag] of Object.entries(flags))
 		{
 			if(flag instanceof Array)
 			{
@@ -61,7 +61,7 @@ function parseTruthyArgOpts(args, flags, options)
 			}
 		}
 	} else {
-		for(const [ key, flag ] of Object.entries(flags))
+		for(const [key, flag] of Object.entries(flags))
 		{
 			flagsMap.set(key, flag);
 		}
@@ -71,7 +71,7 @@ function parseTruthyArgOpts(args, flags, options)
 	const doubleRegex = options.doubleRegex || new RegExp(`(?<=\\s|^)${doublePrefix}${doubleMatching}(?=\\s|$)`,`g`);
 	const doubleFound = options.disableDoublePrefix ? [] : [...argsCopy.join(' ').matchAll(doubleRegex)];
 	
-	/* line by line version of variable 'found' declaration (below this comment)
+	/* line by line version of initialzation for variable 'found' (below this comment)
 	const argstring = argsCopy.join(' ');
 	const allMatchesIterator = argstring.matchAll(flagRegex);
 	const foundAllAsList = [...allMatchesIterator];
@@ -81,12 +81,12 @@ function parseTruthyArgOpts(args, flags, options)
 	const noPrefixes = joinedMatches.split(flagPrefix);
 	const joinedMatchesNoPrefixes = noPrefixes.join('');
 	const splitMatchesNoPrefixes = joinedMatchesNoPrefixes.split('');
-	const prefixed = splitMatchesNoPrefixes.map(foundItem => [flagPrefix,foundItem].join(''));
+	const prefixed = splitMatchesNoPrefixes.map(foundItem => [flagPrefix, foundItem].join(''));
 	const found = [...doubleFound, ...prefixed];
 	*/
-	const found = [...doubleFound, ...[...argsCopy.join(' ').matchAll(flagRegex)].map(tuple => tuple.slice(1)).flat(Infinity).join('').split(flagPrefix).join('').split('').map(foundItem => [flagPrefix,foundItem].join(''))];
+	const found = [...doubleFound, ...[...argsCopy.join(' ').matchAll(flagRegex)].map(tuple => tuple.slice(1)).flat(Infinity).join('').split(flagPrefix).join('').split('').map(foundItem => [flagPrefix, foundItem].join(''))];
 	let count = 0;
-	const parse = (key,flag) => 
+	const parse = (key, flag) =>
 	{
 		if(found.includes(flag))
 		{
@@ -98,14 +98,14 @@ function parseTruthyArgOpts(args, flags, options)
 		}
 		return false;
 	};
-	for(const [ key, value ] of flagsMap)
+	for(const [key, value] of flagsMap)
 	{
 		if(value instanceof Array)
 		{
 			let matchMade = false;
 			for(const flag of value)
 			{
-				if(parse(key,flag))
+				if(parse(key, flag))
 				{
 					matchMade = true;
 					break;
@@ -113,7 +113,7 @@ function parseTruthyArgOpts(args, flags, options)
 			}
 			Object.defineProperty(obj, key, {value: matchMade, writable: false, enumerable: true, configurable: true});
 		} else {
-			Object.defineProperty(obj, key, {value: parse(key,value), writable: false, enumerable: true, configurable: true});
+			Object.defineProperty(obj, key, {value: parse(key, value), writable: false, enumerable: true, configurable: true});
 		}
 	}
 	Object.defineProperty(obj, 'args', {value: argsCopy, writable: false, enumerable: true, configurable: true});
@@ -122,4 +122,4 @@ function parseTruthyArgOpts(args, flags, options)
 	return obj;
 }
 
-module.exports = parseTruthyArgs;
+module.exports = parseTruthyArgOpts;
