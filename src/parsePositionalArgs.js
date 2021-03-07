@@ -4,8 +4,7 @@ const doubleDashMatching = '[a-zA-Z-]+';
 const dashMatching = '[a-zA-Z]+';
 const dashflag = '-';
 
-/**
- @typedef ParseOptions
+/** @typedef ParseOptions
 	options.flagPrefix {string}
 	options.flagMatching {string}
 	options.flagRegex {RegExp}
@@ -32,13 +31,13 @@ const dashflag = '-';
 							  one flag will be used, it can be provided as a string instead
 */
 
-/** parseTruthyArgs(<args>, <flags>, [options]);
+/** parsePositionalArgOpts(<args>, <flags>, [options]);
  @param args {Array} Array of strings to parse over
  @param flags {Object} key:value pairs as described in {Opt}
  @param options {ParseOptions} Options to configure parsing behavior
  @return {ParsedArgs} Results from parsing
 */
-function parsePositionalArgs(args,flags,options) 
+function parsePositionalArgOpts(args,flags,options)
 {
 	if(typeof options === 'undefined') options = {};
 	const flagPrefix = options.flagPrefix || dashflag;

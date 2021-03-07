@@ -1,8 +1,7 @@
 const parsePositionalArgs = require(`./parsePositionalArgs.js`);
 const parseTruthyArgs = require(`./parseTruthyArgs.js`);
 
-/**
- @typedef ParseOptions
+/** @typedef ParseOptions
 	options.truthy {boolean} Parse for truthy args instead of positional args. Default (truthy=false) is to parse positional args
 	options.flagPrefix {string}
 	options.flagMatching {string}
@@ -32,13 +31,13 @@ const parseTruthyArgs = require(`./parseTruthyArgs.js`);
 							  one flag will be used, it can be provided as a string instead
 */
 
-/** parseTruthyArgs(<args>, <flags>, [options]);
+/** parseArgOpts(<args>, <flags>, [options]);
  @param args {Array} Array of strings to parse over
  @param flags {Object} key:value pairs as described in {Opt}
  @param options {ParseOptions} Options to configure parsing behavior
  @return {ParsedArgs} Results from parsing
 */
-function parseArgs(args,flags,options)
+function parseArgOpts(args,flags,options)
 {
 	// parseArgs is a convenience method to merge parsePositionalArgs and parseTruthyArgs into one function
 	if(typeof options === 'undefined') options = {};

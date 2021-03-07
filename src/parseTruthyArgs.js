@@ -31,13 +31,13 @@ const dashflag = '-';
 							  one flag will be used, it can be provided as a string instead
 */
 
-/** parseTruthyArgs(<args>, <flags>, [options]);
+/** parseTruthyArgOpts(<args>, <flags>, [options]);
  @param args {Array} Array of strings to parse over
  @param flags {Object} key:value pairs as described in {Opt}
  @param options {ParseOptions} Options to configure parsing behavior
  @return {ParsedArgs} Results from parsing
 */
-function parseTruthyArgs(args, flags, options) 
+function parseTruthyArgOpts(args, flags, options)
 {
 	if(typeof options === 'undefined') options = {};
 	const flagPrefix = options.flagPrefix || dashflag;
