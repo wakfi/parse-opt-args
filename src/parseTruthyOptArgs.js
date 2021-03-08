@@ -35,7 +35,7 @@ const dashflag = '-';
 		args {Array} Remaining input after parsing opts
 		found {Array} Specific flagValues found in the input
 		count {Number} Number of flags found
-	
+
 	For any flags that are found, its key is used as as a proprty name for the result
 	<flag property> {boolean} Whether a flag corresponding to the property name was found
 */
@@ -48,13 +48,13 @@ const dashflag = '-';
 							  one flag will be used, it can be provided as a string instead
 */
 
-/** parseTruthyArgOpts(<args>, <flags>, [options]);
+/** parseTruthyOptArgs(<args>, <flags>, [options]);
  @param args {Array} Array of strings to parse over
  @param flags {Object} key:value pairs as described in {Opt}
  @param options {ParseOptions} Options to configure parsing behavior
  @return {ParsedArgs} Results from parsing
 */
-function parseTruthyArgOpts(args, flags, options)
+function parseTruthyOptArgs(args, flags, options)
 {
 	if(typeof options === 'undefined') options = {};
 	const flagPrefix = options.flagPrefix || dashflag;
@@ -87,7 +87,7 @@ function parseTruthyArgOpts(args, flags, options)
 	const doubleMatching = options.doubleMatching || doubleDashMatching;
 	const doubleRegex = options.doubleRegex || new RegExp(`(?<=\\s|^)${doublePrefix}${doubleMatching}(?=\\s|$)`,`g`);
 	const doubleFound = options.disableDoublePrefix ? [] : [...argsCopy.join(' ').matchAll(doubleRegex)];
-	
+
 	/* line by line version of initialzation for variable 'found' (below this comment)
 	const argstring = argsCopy.join(' ');
 	const allMatchesIterator = argstring.matchAll(flagRegex);
@@ -139,4 +139,4 @@ function parseTruthyArgOpts(args, flags, options)
 	return obj;
 }
 
-module.exports = parseTruthyArgOpts;
+module.exports = parseTruthyOptArgs;

@@ -36,7 +36,7 @@ const dashflag = '-';
 
 /** @typedef ParsedArgs
 		args {Array} Remaining input after parsing opts
-	
+
 	For any flags that are found, its key is used as as a proprty name for the result
 	<flag property> {boolean} Whether a flag corresponding to the property name was found
 */
@@ -49,13 +49,13 @@ const dashflag = '-';
 							  one flag will be used, it can be provided as a string instead
 */
 
-/** parsePositionalArgOpts(<args>, <flags>, [options]);
+/** parsePositionalOptArgs(<args>, <flags>, [options]);
  @param args {Array} Array of strings to parse over
  @param flags {Object} key:value pairs as described in {Opt}
  @param options {ParseOptions} Options to configure parsing behavior
  @return {ParsedArgs} Results from parsing
 */
-function parsePositionalArgOpts(args,flags,options)
+function parsePositionalOptArgs(args,flags,options)
 {
 	if(typeof options === 'undefined') options = {};
 	const flagPrefix = options.flagPrefix || dashflag;
@@ -121,4 +121,4 @@ function parsePositionalArgOpts(args,flags,options)
 	return obj;
 }
 
-module.exports = parsePositionalArgOpts;
+module.exports = parsePositionalOptArgs;
