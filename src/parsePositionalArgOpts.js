@@ -5,15 +5,33 @@ const dashMatching = '[a-zA-Z]+';
 const dashflag = '-';
 
 /** @typedef ParseOptions
-		flagPrefix {string}
-		flagMatching {string}
-		flagRegex {RegExp}
-		disableAutoPrefix {boolean}
-		singlePosition {boolean}
-		disableDoublePrefix {boolean}
-		doublePrefix {string}
-		doubleMatching {string}
-		doubleRegex {RegExp}
+		flagPrefix {string} Prefix for identifying opt flags. Default is '-'
+		flagMatching {string} Pattern for valid flags to match. Default is '[a-zA-Z]+'
+		flagRegex {RegExp} Regular expression to use when identifying flags. If flagRegex is
+						   provided, flagPrefix & flagMatching are ignored. Default is undefined;
+						   if neither flagPrefix nor flagMatching are provided, a predefined RegExp
+						   equivalent to the result of the default flagPrefix and flagMatching is
+						   used
+		disableAutoPrefix {boolean} Enable if the flags are specified with the expected prefix
+									included inline
+		singlePosition {boolean} Enable if arguments for a flag should
+								 only be the next whitespace delimited string after the flag
+		disableDoublePrefix {boolean} Disables parsing for flags with double-width prefix. This
+									  improves efficiency when there aren't any double flags
+		doublePrefix {string} Prefix to use for double flags. Since this can be anything, it can
+							  also be used to specify a secondary pattern. Default is flagPrefix
+							  twice (e.g. '--' for flagPrefix '-')
+		doubleMatching {string} Same usage as flagMatching, but for the double flag pattern instead.
+								Default is '[a-zA-Z-]+'
+		doubleRegex {RegExp} Same usage and behavior as flagPrefix, but for the double flag pattern.
+							 The primary difference between double flag and single flag is in the
+							 expected format of the pattern to match. 'Single flag' options are
+							 expected to be single characters, while 'double flag' options are
+							 expected to be (potentially) more than one character. Using defaults
+							 this means that 'single flag' options can be a single letter, and
+							 'double flag' options can be one or more words, with a dash available
+							 to use as spacing between words. Since all these definitions are
+							 configurable, this can be changed to fit need
 */
 
 /** @typedef ParsedArgs
