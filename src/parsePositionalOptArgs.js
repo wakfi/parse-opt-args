@@ -1,12 +1,12 @@
-const dashflagRegex = /(?<=\s|^)-([a-zA-Z]+)(?=\s|$)/g;
-const dashflagRegexNonGlobal = /(?<=\s|^)-([a-zA-Z]+)(?=\s|$)/;
+const dashflagRegex = /(?<=\s|^)-([a-zA-Z])(?=\s|$)/g;
+const dashflagRegexNonGlobal = /(?<=\s|^)-([a-zA-Z])(?=\s|$)/;
 const doubleDashMatching = '[a-zA-Z-]+';
-const dashMatching = '[a-zA-Z]+';
+const dashMatching = '[a-zA-Z]';
 const dashflag = '-';
 
 /** @typedef ParseOptions
 		flagPrefix {string} Prefix for identifying opt flags. Default is '-'
-		flagMatching {string} Pattern for valid flags to match. Default is '[a-zA-Z]+'
+		flagMatching {string} Pattern for valid flags to match. Default is '[a-zA-Z]'
 		flagRegex {RegExp} Regular expression to use when identifying flags. If flagRegex is
 						   provided, flagPrefix & flagMatching are ignored. Default is undefined;
 						   if neither flagPrefix nor flagMatching are provided, a predefined RegExp
@@ -90,19 +90,27 @@ function parsePositionalOptArgs(args,flags,options)
 	const doubleMatching = options.doubleMatching || doubleDashMatching;
 	const doubleRegex = options.doubleRegex || new RegExp(`(?<=\\s|^)${doublePrefix}${doubleMatching}(?=\\s|$)`,`g`);
 	const doubleRegexNonGlobal = options.doubleRegex || new RegExp(`(?<=\\s|^)${doublePrefix}${doubleMatching}(?=\\s|$)`);
-	const doubleFound = options.disableDoublePrefix ? [] : [...argsCopy.join(' ').matchAll(doubleRegex)];
+	const doubleFound = options.disableDoublePrefix ? [] : [...argsCopy.join(' ').matchAll(doubleRegex)].map(match => match[0]);
+	//console.log(options.disableDoublePrefix);
+	//console.log(options);
 	const found = [...doubleFound, ...[...argsCopy.join(' ').matchAll(flagRegex)].map(tuple => tuple.slice(1)).flat(Infinity).join('').split(flagPrefix).join('').split('').map(foundItem => [flagPrefix, foundItem].join(''))];
+	//console.log(doubleFound);
+	//console.log(found);
 	const parse = (key, flag) =>
 	{
 		if(argsCopy.includes(flag))
 		{
 			const indexKey = argsCopy.indexOf(flag);
+			//console.log(argsCopy);
+			//console.log(argsCopy.slice(indexKey+1).map(arg => arg + ' ' + flagRegexNonGlobal.test(arg) || (!options.disableDoublePrefix && doubleRegexNonGlobal.test(arg))));
 			const nextFlagIndex = singlePosition ? 1 : argsCopy.slice(indexKey+1).findIndex(arg => flagRegexNonGlobal.test(arg) || (!options.disableDoublePrefix && doubleRegexNonGlobal.test(arg)));
+			//console.log(nextFlagIndex);
 			const val = argsCopy.splice(indexKey+1, nextFlagIndex==-1 ? argsCopy.length : nextFlagIndex).join(' ');
 			Object.defineProperty(obj, key, {value: val, writable: false, enumerable: true, configurable: true});
 			argsCopy.splice(indexKey, 1);
 			return true;
 		}
+		Object.defineProperty(obj, key, {value: undefined, writable: false, enumerable: true, configurable: true});
 		return false;
 	};
 	for(const [key, value] of flagsMap)
@@ -111,9 +119,11 @@ function parsePositionalOptArgs(args,flags,options)
 		{
 			for(const flag of value)
 			{
+				if(doubleRegexNonGlobal.test(flag)) continue;
 				if(parse(key, flag)) break;
 			}
 		} else {
+			if(doubleRegexNonGlobal.test(value)) continue;
 			parse(key, value);
 		}
 	}
