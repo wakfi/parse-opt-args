@@ -119,11 +119,11 @@ function parsePositionalOptArgs(args,flags,options)
 		{
 			for(const flag of value)
 			{
-				if(doubleRegexNonGlobal.test(flag)) continue;
+				if(!options.disableDoublePrefix && doubleRegexNonGlobal.test(flag)) continue;
 				if(parse(key, flag)) break;
 			}
 		} else {
-			if(doubleRegexNonGlobal.test(value)) continue;
+			if(!options.disableDoublePrefix && doubleRegexNonGlobal.test(value)) continue;
 			parse(key, value);
 		}
 	}
