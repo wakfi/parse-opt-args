@@ -88,12 +88,12 @@ function parsePositionalOptArgs(args,flags,options)
 	}
 	const doublePrefix = options.doublePrefix || [flagPrefix, flagPrefix].join('');
 	const doubleMatching = options.doubleMatching || doubleDashMatching;
-	const doubleRegex = options.doubleRegex || new RegExp(`(?<=\\s|^)${doublePrefix}${doubleMatching}(?=\\s|$)`,`g`);
+	//const doubleRegex = options.doubleRegex || new RegExp(`(?<=\\s|^)${doublePrefix}${doubleMatching}(?=\\s|$)`,`g`);
 	const doubleRegexNonGlobal = options.doubleRegex || new RegExp(`(?<=\\s|^)${doublePrefix}${doubleMatching}(?=\\s|$)`);
-	const doubleFound = options.disableDoublePrefix ? [] : [...argsCopy.join(' ').matchAll(doubleRegex)].map(match => match[0]);
+	//const doubleFound = options.disableDoublePrefix ? [] : [...argsCopy.join(' ').matchAll(doubleRegex)].map(match => match[0]);
 	//console.log(options.disableDoublePrefix);
 	//console.log(options);
-	const found = [...doubleFound, ...[...argsCopy.join(' ').matchAll(flagRegex)].map(tuple => tuple.slice(1)).flat(Infinity).join('').split(flagPrefix).join('').split('').map(foundItem => [flagPrefix, foundItem].join(''))];
+	//const found = [...doubleFound, ...[...argsCopy.join(' ').matchAll(flagRegex)].map(tuple => tuple.slice(1)).flat(Infinity).join('').split(flagPrefix).join('').split('').map(foundItem => [flagPrefix, foundItem].join(''))];
 	//console.log(doubleFound);
 	//console.log(found);
 	const parse = (key, flag) =>
@@ -119,11 +119,11 @@ function parsePositionalOptArgs(args,flags,options)
 		{
 			for(const flag of value)
 			{
-				if(doubleRegexNonGlobal.test(flag)) continue;
+				if(!options.disableDoublePrefix && doubleRegexNonGlobal.test(flag)) continue;
 				if(parse(key, flag)) break;
 			}
 		} else {
-			if(doubleRegexNonGlobal.test(value)) continue;
+			if(!options.disableDoublePrefix && doubleRegexNonGlobal.test(value)) continue;
 			parse(key, value);
 		}
 	}
