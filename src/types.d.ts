@@ -1,4 +1,5 @@
 type Enumerable<T> = T | T[];
+type ROEnumerable<T> = T | readonly T[];
 type Optional<T> = T | undefined;
 
 type Flags = {

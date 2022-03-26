@@ -11,9 +11,8 @@ const dashflag = '-';
  * @param options {ParseOptions} Options to configure parsing behavior
  * @return {ParsedArgs} Results from parsing
  */
-export default function parsePositionalOptArgs<F extends Flags>(args: string[], flags: F, options?: ParsePositionalOptions): ParsedPositionalArgs<F>
+export default function parsePositionalOptArgs<F extends Flags>(args: string[], flags: F, options: ParsePositionalOptions = {}): ParsedPositionalArgs<F>
 {
-	if(typeof options === 'undefined') options = {};
 	const flagPrefix = options.flagPrefix || dashflag;
 	const flagMatching = options.flagMatching || dashMatching;
 	const flagRegex = options.flagRegex || ((options.flagMatching || options.flagPrefix) ? new RegExp(`(?<=\\s|^)${flagPrefix}(${flagMatching})(?=\\s|$)`,`g`) : dashflagRegex);
@@ -21,15 +20,15 @@ export default function parsePositionalOptArgs<F extends Flags>(args: string[], 
 	const singlePosition = options.singlePosition || false;
 	if(!(flagRegex instanceof RegExp)) throw new TypeError(`flagRegex must be a Regular Expression`);
 	const argsCopy = [...args];
-	const flagsMap = new Map();
-	const obj = {};
+	const flagsMap = new Map<string, ROEnumerable<string>>();
+	const obj = {} as ParsedPositionalArgs<F>;
 	if(!options.disableAutoPrefix)
 	{
 		for(const [key, flag] of Object.entries(flags))
 		{
 			if(flag instanceof Array)
 			{
-				const flagSet = [];
+				const flagSet: string[] = [];
 				flag.forEach(subflag => flagSet.push(flagPrefix + subflag));
 				flagsMap.set(key, flagSet);
 			} else {
@@ -52,7 +51,7 @@ export default function parsePositionalOptArgs<F extends Flags>(args: string[], 
 	//const found = [...doubleFound, ...[...argsCopy.join(' ').matchAll(flagRegex)].map(tuple => tuple.slice(1)).flat(Infinity).join('').split(flagPrefix).join('').split('').map(foundItem => [flagPrefix, foundItem].join(''))];
 	//console.log(doubleFound);
 	//console.log(found);
-	const parse = (key, flag) =>
+	const parse = (key: string, flag: string) =>
 	{
 		if(argsCopy.includes(flag))
 		{
