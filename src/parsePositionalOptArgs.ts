@@ -5,7 +5,7 @@ const dashMatching = '[a-zA-Z]';
 const dashflag = '-';
 
 /**
- * parsePositionalOptArgs(<args>, <flags>, [options]);
+ * `parsePositionalOptArgs(<args>, <flags>, [options]);`
  * @param {string[]} args Array of strings to parse over
  * @param {Flags} flags key:value pairs as described in {Opt}
  * @param options {ParseOptions} Options to configure parsing behavior

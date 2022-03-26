@@ -2,6 +2,20 @@ type Enumerable<T> = T | T[];
 type ROEnumerable<T> = T | readonly T[];
 type Optional<T> = T | undefined;
 
+/**
+ * Option is a decription of a given key:value pair in an Object being used as the flags parameter.
+ * Not a real object/type.
+ *
+ * @property {string} key  Used as property name if any of the associated flags are found in args
+ * @property {string|string[]} flagValues  Flags to search for representing a particular option. If only
+ *                                         one flag will be used, it can be provided as a string instead
+ */
+type Opt = never;
+
+/**
+ * flag:value pairs used to define what options to look for and what keys to return their corresponding results as
+ * @see {Opt}
+ */
 type Flags = {
 	[K in string as K & string]: string | readonly string[];
 }
