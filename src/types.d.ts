@@ -1,3 +1,4 @@
+type Enumerable<T> = T | T[];
 type Optional<T> = T | undefined;
 
 type Flags = {
@@ -29,7 +30,7 @@ type ParsedTruthyArgs<F> = BaseParsedArgs<F, true> & {
 	count: readonly number
 }
 
-type ParsedArgs<F, T extends Optional<boolean>> = T extends true ? ParsedTruthyArgs<F> : ParsedPositionalArgs<F>
+type ParsedArgs<F, T extends Optional<boolean> = undefined> = T extends true ? ParsedTruthyArgs<F> : ParsedPositionalArgs<F>
 
 // Option interfaces
 interface BaseOptions {
@@ -112,4 +113,7 @@ interface ParseTruthyOptions extends BaseOptions {
      singlePosition?: boolean,
 }
 
-interface ParseOptions extends ParsePositionalOptions, ParseTruthyOptions {}
+type ParseOptions = ParsePositionalOptions | ParseTruthyOptions
+
+let a: ParseOptions<true>
+a.truthy
