@@ -55,7 +55,7 @@ const dashflag = '-';
  @param options {ParseOptions} Options to configure parsing behavior
  @return {ParsedArgs} Results from parsing
 */
-function parsePositionalOptArgs(args,flags,options)
+export default function parsePositionalOptArgs(args,flags,options)
 {
 	if(typeof options === 'undefined') options = {};
 	const flagPrefix = options.flagPrefix || dashflag;
@@ -130,5 +130,3 @@ function parsePositionalOptArgs(args,flags,options)
 	Object.defineProperty(obj, 'args', {value: argsCopy, writable: false, enumerable: true, configurable: true});
 	return obj;
 }
-
-module.exports = parsePositionalOptArgs;
