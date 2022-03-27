@@ -1,6 +1,6 @@
-type Enumerable<T> = T | T[];
-type ROEnumerable<T> = T | readonly T[];
-type Optional<T> = T | undefined;
+export type Enumerable<T> = T | T[];
+export type ROEnumerable<T> = T | readonly T[];
+export type Optional<T> = T | undefined;
 
 /**
  * Option is a decription of a given key:value pair in an Object being used as the flags parameter.
@@ -10,18 +10,19 @@ type Optional<T> = T | undefined;
  * @property {string|string[]} flagValues  Flags to search for representing a particular option. If only
  *                                         one flag will be used, it can be provided as a string instead
  */
+// @ts-expect-error Intentionally unused
 type Opt = never;
 
 /**
  * flag:value pairs used to define what options to look for and what keys to return their corresponding results as
  * @see {Opt}
  */
-type Flags = {
+export type Flags = {
 	[K in string as K & string]: string | readonly string[];
 }
 
 // Return types
-type RawParsedArgs<F extends Optional<Flags> = undefined, T extends boolean> = F extends undefined
+type RawParsedArgs<F extends Optional<Flags> = undefined, T extends boolean = false> = F extends undefined
  ? { readonly [K in string]?: T extends true ? boolean : string; }
  : { readonly [K in keyof F as K & string]?: T extends true ? boolean : string; };
 
@@ -32,9 +33,9 @@ type BaseParsedArgs<F extends Optional<Flags>, T extends boolean> = RawParsedArg
     args: string[],
 }
 
-type ParsedPositionalArgs<F> = BaseParsedArgs<F, false>
+export type ParsedPositionalArgs<F extends Optional<Flags>> = BaseParsedArgs<F, false>
 
-type ParsedTruthyArgs<F> = BaseParsedArgs<F, true> & {
+export type ParsedTruthyArgs<F extends Optional<Flags>> = BaseParsedArgs<F, true> & {
     /**
      * List of which specific flagValues were found
      */
@@ -42,10 +43,10 @@ type ParsedTruthyArgs<F> = BaseParsedArgs<F, true> & {
     /**
      * Number of flags found
      */
-	count: readonly number
+	count: number
 }
 
-type ParsedArgs<F, T extends Optional<boolean> = undefined> = T extends true ? ParsedTruthyArgs<F> : ParsedPositionalArgs<F>
+export type ParsedArgs<F extends Optional<Flags>, T extends Optional<boolean> = undefined> = T extends true ? ParsedTruthyArgs<F> : ParsedPositionalArgs<F>
 
 // Option interfaces
 interface BaseOptions {
@@ -104,7 +105,7 @@ interface BaseOptions {
 	doubleRegex?: RegExp
 }
 
-interface ParsePositionalOptions extends BaseOptions {
+export interface ParsePositionalOptions extends BaseOptions {
     /** You can leave this undefined for positional parsing */
     truthy?: false,
 	/**
@@ -116,7 +117,7 @@ interface ParsePositionalOptions extends BaseOptions {
      singlePosition?: boolean,
 }
 
-interface ParseTruthyOptions extends BaseOptions {
+export interface ParseTruthyOptions extends BaseOptions {
     /** You must specify this for truthy parsing */
     truthy: true,
 	/**
@@ -128,7 +129,4 @@ interface ParseTruthyOptions extends BaseOptions {
      singlePosition?: boolean,
 }
 
-type ParseOptions = ParsePositionalOptions | ParseTruthyOptions
-
-let a: ParseOptions<true>
-a.truthy
+export type ParseOptions = ParsePositionalOptions | ParseTruthyOptions

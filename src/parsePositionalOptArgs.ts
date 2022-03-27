@@ -1,3 +1,5 @@
+import type { Flags, ParsePositionalOptions, ParsedPositionalArgs, ROEnumerable } from "./types";
+
 const dashflagRegex = /(?<=\s|^)-([a-zA-Z])(?=\s|$)/g;
 const dashflagRegexNonGlobal = /(?<=\s|^)-([a-zA-Z])(?=\s|$)/;
 const doubleDashMatching = '[a-zA-Z-]+';

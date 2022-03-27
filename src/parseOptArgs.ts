@@ -1,5 +1,6 @@
 import parsePositionalOptArgs from './parsePositionalOptArgs';
 import parseTruthyOptArgs from './parseTruthyOptArgs';
+import type { Flags, ParseOptions, Enumerable, ParsedArgs } from './types';
 
 /**
  * `parseOptArgs(<args>, <flags>, [options]);`

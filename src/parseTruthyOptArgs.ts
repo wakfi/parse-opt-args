@@ -1,3 +1,5 @@
+import type { Flags, ParseTruthyOptions, ParsedTruthyArgs, ROEnumerable } from "./types";
+
 const dashflagRegex = /(?<=\s|^)-([a-zA-Z]+)(?=\s|$)/g;
 const doubleDashMatching = '[a-zA-Z-]+';
 const dashMatching = '[a-zA-Z]+';

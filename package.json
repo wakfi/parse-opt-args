@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "prepack": "yarn build",
-    "build": "tsc && cp src/types.d.ts dist/src",
+    "build": "tsc",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
