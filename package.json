@@ -2,9 +2,11 @@
   "name": "parse-opt-args",
   "version": "0.1.2",
   "description": "Parser for command-line-style options in strings",
-  "main": "src/parseOptArgs.js",
+  "main": "src/index",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
