@@ -2,10 +2,12 @@
   "name": "parse-opt-args",
   "version": "0.1.2",
   "description": "Parser for command-line-style options in strings",
-  "main": "src/index",
+  "main": "dist/src/index",
+  "types": "dist/src/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "prepack": "yarn build",
+    "build": "tsc && cp src/types.d.ts dist/src",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
