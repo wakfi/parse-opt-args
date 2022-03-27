@@ -1,6 +1,6 @@
 {
   "name": "parse-opt-args",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Parser for command-line-style options in strings",
   "main": "dist/src/index",
   "types": "dist/src/index.d.ts",
