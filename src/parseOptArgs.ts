@@ -1,6 +1,6 @@
 import parsePositionalOptArgs from './parsePositionalOptArgs';
 import parseTruthyOptArgs from './parseTruthyOptArgs';
-import type { Flags, ParseOptions, Enumerable, ParsedArgs } from './types';
+import type { Flags, ParseOptions, Enumerable, ParsedArgs, ParsePositionalOptions } from './types';
 
 /**
  * `parseOptArgs(<args>, <flags>, [options]);`
@@ -9,7 +9,7 @@ import type { Flags, ParseOptions, Enumerable, ParsedArgs } from './types';
  * @param options Options to configure parsing behavior
  * @return Results from parsing
  */
-export default function parseOptArgs<F extends Flags, T extends ParseOptions>(args: Enumerable<string>, flags: F, options: T = {} as T): ParsedArgs<F, T['truthy']>
+export default function parseOptArgs<F extends Flags, T extends ParseOptions = ParsePositionalOptions>(args: Enumerable<string>, flags: F, options: T = {} as T): ParsedArgs<F, T['truthy']>
 {
 	// parseArgs is a convenience method to merge parsePositionalOptArgs and parseTruthyOptArgs into one function
 	if(typeof args === 'string') args = args.split(' '); //this causes strings to be valid inputs which is convenient
