@@ -1,0 +1,5 @@
+.tsbuildinfo
+dist/tsconfig.tsbuildinfo
+package.tgz
+tsconfig.json
+.yarn
