@@ -11,6 +11,7 @@ export type Optional<T> = T | undefined;
  *                                         one flag will be used, it can be provided as a string instead
  */
 // @ts-expect-error Intentionally unused
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type Opt = never;
 
 /**
