@@ -1,10 +1,12 @@
 # parse-opt-args
 Library for parsing options out of strings
 
+### This package uses ES Modules
+
 [npm](https://www.npmjs.com/package/parse-opt-args)  
-Usage: `const parseOptArgs = require('parse-opt-args');`
-```js
-const parseOptArgs = require('parse-opt-args');
+Usage: `import parseOptArgs = from 'parse-opt-args';`
+```ts
+import parseOptArgs = from 'parse-opt-args';
 const myInput = `some input -o this is the 'o' option -m this is the 'm' option -q this is the 'q' option`;
 const argsParsed = parseOptArgs(myInput, {'optionO':'o', 'optionQ':['q', '-optionQ'], 'optionZ':'-optionZ'});
 console.log(argsParsed.optionO); // prints: this is the 'o' option
