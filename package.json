@@ -1,14 +1,14 @@
 {
   "name": "parse-opt-args",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Parser for command-line-style options in strings",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "exports": {
-      ".": {
-          "import": "./dist/esm/index.js",
-          "require": "./dist/cjs/index.js"
-      }
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
   },
   "scripts": {
     "prepack": "yarn build",
