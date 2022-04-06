@@ -1,0 +1,15 @@
+# From https://www.sensedeep.com/blog/posts/2021/how-to-create-single-source-npm-module.html
+
+cat >dist/cjs/package.json <<!EOF
+{
+    "type": "commonjs",
+    "types": "dist/cjs/index.d.ts"
+}
+!EOF
+
+cat >dist/esm/package.json <<!EOF
+{
+    "type": "module",
+    "types": "dist/esm/index.d.ts"
+}
+!EOF

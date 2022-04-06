@@ -2,12 +2,18 @@
   "name": "parse-opt-args",
   "version": "0.2.1",
   "description": "Parser for command-line-style options in strings",
-  "main": "dist/src/index",
-  "types": "dist/src/index.d.ts",
-  "type": "module",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "exports": {
+      ".": {
+          "import": "./dist/esm/index.js",
+          "require": "./dist/cjs/index.js"
+      }
+  },
   "scripts": {
     "prepack": "yarn build",
-    "build": "tsc",
+    "clean": "rm -rf dist/*",
+    "build": "yarn clean && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && ./fixup",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
