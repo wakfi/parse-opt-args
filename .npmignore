@@ -3,3 +3,7 @@ dist/tsconfig.tsbuildinfo
 package.tgz
 tsconfig.json
 .yarn
+parse-opt-args*.tgz
+fixup
+src
+tsconfig*
